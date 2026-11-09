@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -23,4 +24,13 @@ jobs:
         run: unzip MignonBrewLogAndroid-AndroidStudio.zip -d source
 
       - name: Build APK
-        uses: gradle/gradle-build-action@v
+        uses: gradle/gradle-build-action@v3
+        with:
+          gradle-version: '8.9'
+          build-root-directory: source/MignonBrewLogAndroid
+          arguments: assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mignon-brew-log-apk
+          path: source/MignonBrewLogAndroid/app/build/outputs/apk/debug/app-debug.apk
